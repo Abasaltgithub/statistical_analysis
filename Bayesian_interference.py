@@ -30,7 +30,6 @@ for key in ctr_data:
     if key != 'None':
         mf_df[key] = mf_df[key][:-2]
 
-
 # Subtract negative_ctr_avg from ctr_data
 ctr_df['column_1'] = ctr_df['column_1'] - negative_ctr_avg
 ctr_df['column_2'] = ctr_df['column_2'] - negative_ctr_avg
@@ -42,17 +41,20 @@ for key in ctr_data:
 mf_data_array = mf_df[['column_1', 'column_2']].values.ravel()
 ctr_data_array = ctr_df[['column_1', 'column_2']].values.ravel()
 
-# Create bar plots
-plt.figure(figsize=(10, 6))
-plt.subplot(2, 1, 1)
-plt.bar(range(len(mf_data_array)), mf_data_array, color='b')
-plt.title('MF Data')
-plt.ylabel('Values')
+bin = 55
+# Specify the same data range for both histograms
+data_range = (-2 * 10**6, 5 * 10**6)
 
-plt.subplot(2, 1, 2)
-plt.bar(range(len(ctr_data_array)), ctr_data_array, color='g')
-plt.title('CTR Data')
-plt.ylabel('Values')
+# Create a combined histogram plot
+plt.figure(figsize=(10, 6))
+plt.hist(mf_data_array, bins=bin, range=data_range, color='b', alpha=0.7,
+         label='MF Data', edgecolor='black')
+plt.hist(ctr_data_array, bins=bin, range=data_range, color='g', alpha=0.7,
+         label='CTR Data', edgecolor='black')
+plt.title('MF Data vs. CTR Data Histogram')
+plt.xlabel('Relative Fluorescence Unit (RFU) ')
+plt.ylabel('Density of Data')
+plt.legend()
 
 plt.tight_layout()
 plt.show()
